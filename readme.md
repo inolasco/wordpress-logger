@@ -1,12 +1,14 @@
 Wordpress Logger
 ===
 
-Tags: log,logging,debug,php,safari,firefox,firebug,firephp,console,development
+**Tags:** log,logging,debug,php,safari,firefox,firebug,firephp,console,development
 Requires at least: 2.5
-Tested up to: 2.7.1
-Stable tag: 0.3
+Tested up to: 3.8.2
+Stable tag: 0.4
 
 Display log messages during plugin and theme development on the console in Safari and Firefox (with Firebug) browsers.
+
+Forked from [vicchi/wordpress-logger](https://github.com/inolasco/wordpress-logger)
 
 ### Description
 
@@ -44,8 +46,8 @@ For more info, comments, and feature requests, visit [the plugin homepage](http:
 
 * **Make sure that your theme template has a footer ( *index.php* should have a *get_footer()* function call at the end).**
 * Turn on the console in your browser:
-	* **Firefox:** The [Firebug](http://getfirebug.com/ "Firebug home page") extension needs to be installed and activated. 
-	* **Safari:** Show the *Error Console* from the *Debug*/*Develop* menu. See FAQ section for details on how to enable the *Debug* menu.
+    * **Firefox:** The [Firebug](http://getfirebug.com/ "Firebug home page") extension needs to be installed and activated. 
+    * **Safari:** Show the *Error Console* from the *Debug*/*Develop* menu. See FAQ section for details on how to enable the *Debug* menu.
 
 ### Usage
 
@@ -66,33 +68,33 @@ The message_type is optional and can be any one of the following constants:
 
 **Logging from template files** - inside the loop to display post IDs.
 
-	`<?php $wplogger->log( 'Post ID: '.$post->ID ); ?>`
-	` `
-	`Output:`
-	` `
-	`[Information: from line 20 in file index.php] Post ID: 125`
-	`[Information: from line 20 in file index.php] Post ID: 116`
-	`[Information: from line 20 in file index.php] Post ID: 65`
+    `<?php $wplogger->log( 'Post ID: '.$post->ID ); ?>`
+    ` `
+    `Output:`
+    ` `
+    `[Information: from line 20 in file index.php] Post ID: 125`
+    `[Information: from line 20 in file index.php] Post ID: 116`
+    `[Information: from line 20 in file index.php] Post ID: 65`
 
 **Logging from PHP files (e.g. functions.php)** ( always a good idea to check if $wplogger is available ). Note the message type set to *warning* through the second parameter.
 
-	`if ($wplogger) $wplogger->log( get_option('active_plugins'), WPLOG_WARNING );`
-	` `
-	`Output:`
-	` `
-	`[Warning: from line 55 in file functions.php] array (`
-	`	  0 => 'wplogger/wplogger.php',`
-	`	  1 => '12seconds-widget/12seconds-widget.php',`
-	`	  2 => 'get-the-image/get-the-image.php',`
-	`)`
+    `if ($wplogger) $wplogger->log( get_option('active_plugins'), WPLOG_WARNING );`
+    ` `
+    `Output:`
+    ` `
+    `[Warning: from line 55 in file functions.php] array (`
+    `      0 => 'wplogger/wplogger.php',`
+    `      1 => '12seconds-widget/12seconds-widget.php',`
+    `      2 => 'get-the-image/get-the-image.php',`
+    `)`
 
 **Logging from plugins** - inside a plugin function. Note the global statement to get $wplogger into current scope.
 
-	`global $wplogger; $wplogger->log( 'No images attached to this post', WPLOG_ERR );`
-	` `
-	`Output:`
-	` `
-	`[Error: from line 206 in file get-the-image.php] No images attached to this post`
+    `global $wplogger; $wplogger->log( 'No images attached to this post', WPLOG_ERR );`
+    ` `
+    `Output:`
+    ` `
+    `[Error: from line 206 in file get-the-image.php] No images attached to this post`
 
 ### Frequently Asked Questions
 
@@ -126,3 +128,8 @@ developed for the Horde 1.3 framework - original authors Chuck Hagenbuch, and Jo
 **0.2** : First official public release;
 
 **0.1** : First internal release;
+
+### TODO:
+* Test on chrome
+* Test on WP 3.8.2
+* Clean log message
