@@ -1,4 +1,6 @@
-=== Wordpress Logger ===
+Wordpress Logger
+===
+
 Tags: log,logging,debug,php,safari,firefox,firebug,firephp,console,development
 Requires at least: 2.5
 Tested up to: 2.7.1
@@ -6,14 +8,14 @@ Stable tag: 0.3
 
 Display log messages during plugin and theme development on the console in Safari and Firefox (with Firebug) browsers.
 
-== Description ==
+### Description
 
 Display log messages from PHP in the browser console in Safari, Firefox (with firebug), and Opera (with the new Dragonfly debugging environment). Essential debugging tool for 
 plugin and theme developers. You no longer have to use 'print_r' statements from PHP to figure out what is going
 on in the code, which more often than not, messes up the DOM and HTML layout. Displays complex PHP structures like arrays and objects 
 in pretty print.
 
-**Features**
+### Features
 
 * Log debug messages directly from themes and plugins.
 * Display log messages in the browser console, without muddying up the browser display.
@@ -22,8 +24,7 @@ in pretty print.
 
 For more info, comments, and feature requests, visit [the plugin homepage](http://www.turingtarpit.com/2009/05/wplogger "Wordpress Logger").
 
-== Installation ==
-
+### Installation
 
 **Installing from the Admin Panel**
 
@@ -46,7 +47,7 @@ For more info, comments, and feature requests, visit [the plugin homepage](http:
 	* **Firefox:** The [Firebug](http://getfirebug.com/ "Firebug home page") extension needs to be installed and activated. 
 	* **Safari:** Show the *Error Console* from the *Debug*/*Develop* menu. See FAQ section for details on how to enable the *Debug* menu.
 
-**Usage**
+### Usage
 
 After activating the plugin, the following PHP function call can log any PHP expression to the console log. 
 
@@ -60,7 +61,8 @@ The message_type is optional and can be any one of the following constants:
 * WPLOG_INFO
 * WPLOG_DEBUG
 
-**Examples**
+===
+### Examples
 
 **Logging from template files** - inside the loop to display post IDs.
 
@@ -91,24 +93,19 @@ The message_type is optional and can be any one of the following constants:
 	`Output:`
 	` `
 	`[Error: from line 206 in file get-the-image.php] No images attached to this post`
-	
-== Screenshots ==
 
-1. Console log output in the Firefox Browser with the Firebug extension.
-2. Console log output in the Safari Browser.
-3. Opera Dragonfly Error Console output in the Opera Browser.
-
-== Frequently Asked Questions ==
+### Frequently Asked Questions
 
 = How to enable the *Debug* / *Develop* menu in Safari? =
 * On [OSX](http://www.macosxhints.com/article.php?story=20030110063041629). 
 * On [Windows](http://robrohan.com/2007/06/11/enable-debug-mode-on-safari-windows-error/).
 
 = How to show the error console in Opera? =
-1. Select the *Tools > Advanced > Developer Tools* menu.
-1. Click on the *Error Console* tab in the Opera Dragonfly console.
 
-== Credits ==
+ 1. Select the *Tools > Advanced > Developer Tools* menu.
+ 1. Click on the *Error Console* tab in the Opera Dragonfly console.
+
+### Credits
 
 Code that forces the wplogger plugin to load first was adapted from the WordPress 
 [FirePHP plugin](http://inchoo.net/wordpress/wordpress-firephp-plugin/ "FirePHP plugin") 
@@ -118,7 +115,7 @@ This plugin is based on [PEAR Log](http://pear.php.net/package/Log "PEAR Log"), 
 PHP PEAR library. Current maintainers Jon Parise, Jan Schneider, and Chuck Hagenbuch. PEAR Log is based on code first
 developed for the Horde 1.3 framework - original authors Chuck Hagenbuch, and Jon Parise.
 
-== Release Notes ==
+### Release Notes
 
 **0.3** : Added support for Opera ;
 
