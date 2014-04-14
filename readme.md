@@ -1,4 +1,4 @@
-Wordpress Logger
+Wordpress Console Logger
 ===
 
 **Tags:** log,logging,debug,php,safari,firefox,firebug,firephp,console,development
