@@ -2,7 +2,7 @@
 /*
  Plugin Name: Wordpress Console Logger
  Plugin URI: https://github.com/inolasco/wp-console-logger
- Description: Displays log messages in the browser console in Safari, Chrome, Firefox and Opera. Useful for plugin and theme developers to debug PHP code.
+ Description: Displays log messages in the browser console in Safari, Firefox and Opera. Useful for plugin and theme developers to debug PHP code.
  Version: 0.4
  Author: Ivan Nolasco
  Author URI: https://github.com/inolasco/wp-console-logger
@@ -67,7 +67,7 @@ register_activation_hook(__FILE__, array($wplogger, 'activate'));
 add_filter('pre_update_option_active_plugins', array($wplogger, 'pre_update_option_active_plugins'));
 
 /* Requires JQuery 1.2.6 for browser detection (deprecated in version 1.3) */
-wp_enqueue_script('jquery', '1.2,6');
+wp_enqueue_script('jquery', '2.1,0');
 
 /* Register function to add logging script */
 add_action('wp_footer', array($wplogger, 'flushLogMessages')); // log scripts
@@ -150,6 +150,7 @@ class WPLogger {
      * @see    http://docs.jquery.com/Utilities/jQuery.browser
      */
 
+    // TODO: Also Chrome
     function flushLogMessages() {
         if (count($this->_buffer)) {
             print '<script type="text/javascript">'.
