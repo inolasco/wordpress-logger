@@ -53,7 +53,12 @@ For more info, comments, and feature requests, visit [the plugin homepage](http:
 
 After activating the plugin, the following PHP function call can log any PHP expression to the console log. 
 
-     `$wplogger->log( php_expression [, message_type] );`
+    $wplogger->log( php_expression [, message_type] );
+    $wplogger->log('Testing the plugin', WPLOG_INFO);
+    $wplogger->info('Testing the plugin');
+    $wplogger->debug('Testing the plugin');
+    $wplogger->warn('Testing the plugin');
+    $wplogger->error('Testing the plugin');
 
 
 The message_type is optional and can be any one of the following constants:
