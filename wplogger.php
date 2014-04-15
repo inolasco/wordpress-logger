@@ -1,11 +1,11 @@
 <?php
 /*
- Plugin Name: Wordpress Logger
- Plugin URI: http://www.turingtarpit.com/2009/05/wordpress-logger-a-plugin-to-display-php-log-messages-in-safari-and-firefox/
- Description: Displays log messages in the browser console in Safari, Firefox and Opera. Useful for plugin and theme developers to debug PHP code.
- Version: 0.3
- Author: Chandima Cumaranatunge
- Author URI: http://www.turingtarpit.com
+ Plugin Name: Wordpress Console Logger
+ Plugin URI: https://github.com/inolasco/wp-console-logger
+ Description: Displays log messages in the browser console in Safari, Chrome, Firefox and Opera. Useful for plugin and theme developers to debug PHP code.
+ Version: 0.4
+ Author: Ivan Nolasco
+ Author URI: https://github.com/inolasco/wp-console-logger
 
      This program is free software; you can redistribute it and/or modify
      it under the terms of the GNU General Public License as published by
@@ -59,7 +59,7 @@ $wplogger = new WPLogger();
 
 function wplogger($message = '', $msgType = null) {
     global $wplogger;
-    $wplogger - > log($message, $msgType);
+    $wplogger->log($message, $msgType);
 }
 
 /* Hooks to force this plugin to the head of the plugin list */
@@ -93,10 +93,10 @@ class WPLogger {
      * Long descriptions of debug message types
      */
     var $_msgTypeLong = array(
-        WPLOG_ERR = > 'Error',
-        WPLOG_WARNING = > 'Warning',
-        WPLOG_INFO = > 'Information',
-        WPLOG_DEBUG = > 'Debug'
+        WPLOG_ERR => 'ERROR',
+        WPLOG_WARNING => 'WARN',
+        WPLOG_INFO => 'INFO',
+        WPLOG_DEBUG => 'DEBUG'
     );
 
     /**
@@ -151,33 +151,33 @@ class WPLogger {
      */
 
     function flushLogMessages() {
-        if (count($this - > _buffer)) {
+        if (count($this->_buffer)) {
             print '<script type="text/javascript">'.
             "\n";
             print 'var $j=jQuery.noConflict();'.
             "\n";
             print 'if ($j.browser.safari && window.console) {'.
             "\n";
-            foreach($this - > _buffer as $line) {
+            foreach($this->_buffer as $line) {
                 printf('window.console.%s("%s");', $line[0], $line[1]);
                 print "\n";
             }
             print '} else if ($j.browser.mozilla && (\'console\' in window) && (\'firebug\' in console)) {'.
             "\n";
-            foreach($this - > _buffer as $line) {
+            foreach($this->_buffer as $line) {
                 printf('console.%s("%s");', $line[0], $line[1]);
                 print "\n";
             }
             print '} else if ($j.browser.opera && window.opera && opera.postError) {'.
             "\n";
-            foreach($this - > _buffer as $line) {
+            foreach($this->_buffer as $line) {
                 printf('opera.postError("%s");', $line[1]);
                 print "\n";
             }
             print "}\n";
             print "</script>\n";
         };
-        $this - > _buffer = array();
+        $this->_buffer = array();
     }
 
     /**
@@ -191,17 +191,20 @@ class WPLogger {
      *                     WPLOG_ERR. WPLOG_WARNING, WPLOG_INFO, WPLOG_DEBUG
      */
 
-    function log($message, $msgType = null) {
+    function log($message, $msgType = null, $bTrace) {
         /* backtrace */
-        $bTrace = debug_backtrace(); // assoc array
+
+        if (!isset($bTrace)) {
+            $bTrace = debug_backtrace(); // assoc array
+        }
 
         /* If a log message type hasn't been specified, use the default value. */
         if ($msgType === null) {
-            $msgType = $this - > _defaultMsgType;
+            $msgType = $this->_defaultMsgType;
         }
 
         /* Extract the string representation of the message. */
-        $message = $this - > _extractMessage($message);
+        $message = $this->_extractMessage($message);
 
         /* normalize line breaks */
         $message = str_replace("\r\n", "\n", $message);
@@ -213,16 +216,34 @@ class WPLogger {
         $message = str_replace('"', '\\"', $message);
 
         /* Build the string containing the complete log line. */
-        $line = sprintf('[%s: from line %d in file %s] %s',
-            $this - > _msgTypeLong[$msgType],
-            $bTrace[0]['line'],
+        $line = sprintf('%6s: [%s:%d] %s',
+            $this->_msgTypeLong[$msgType],
             basename($bTrace[0]['file']),
+            $bTrace[0]['line'],
             $message);
 
         // buffer method and line
-        $this - > _buffer[] = array($msgType, $line);
+        $this->_buffer[] = array($msgType, $line);
 
         return true;
+    }
+
+    // Convenience functions to auto set the log type
+    function info($message) {
+        $bTrace = debug_backtrace();
+        return $this->log($message, WPLOG_INFO, $bTrace);
+    }
+    function debug($message) {
+        $bTrace = debug_backtrace();
+        return $this->log($message, WPLOG_DEBUG, $bTrace);
+    }
+    function warn($message) {
+        $bTrace = debug_backtrace();
+        return $this->log($message, WPLOG_WARNING, $bTrace);
+    }
+    function error($message) {
+        $bTrace = debug_backtrace();
+        return $this->log($message, WPLOG_ERR, $bTrace);
     }
 
     /**
@@ -254,14 +275,14 @@ class WPLogger {
          */
         if (is_object($message)) {
             if (method_exists($message, 'getmessage')) {
-                $message = $message - > getMessage();
+                $message = $message->getMessage();
             } else if (method_exists($message, 'tostring')) {
-                $message = $message - > toString();
+                $message = $message->toString();
             } else if (method_exists($message, '__tostring')) {
                 if (version_compare(PHP_VERSION, '5.0.0', 'ge')) {
                     $message = (string) $message;
                 } else {
-                    $message = $message - > __toString();
+                    $message = $message->__toString();
                 }
             } else {
                 $message = var_export($message, true);
